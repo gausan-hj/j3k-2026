@@ -1,0 +1,9 @@
+# 仓库里只放给老师看的成品
+_verify/
+video/
+/hl voice.mp3
+index.before-i18n.html
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
