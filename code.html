@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>取件码对照表 · J3K 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#4a3b39; --ink-2:#8a7461; --gold:#cf9a4c; --gold-l:#f1d9a6;
+    --paper:#fffaf1; --line:rgba(207,154,76,.35);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;min-height:100%}
+  body{
+    font-family:"Noto Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:var(--ink);
+    background:linear-gradient(170deg,#fff3e4 0%,#fbd2a8 38%,#e99a9e 72%,#a06382 100%);
+    background-attachment:fixed;
+    padding:clamp(16px,4vw,40px) clamp(12px,3vw,28px) 60px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  header{margin-bottom:18px}
+  h1{
+    font-family:"Noto Serif SC",serif;font-weight:900;letter-spacing:.06em;
+    font-size:clamp(24px,6vw,34px);margin:0 0 6px;color:#7a2b28;
+    text-shadow:0 1px 0 rgba(255,255,255,.6);
+  }
+  .sub{margin:0;font-size:13.5px;color:#7d5a56}
+  .sub b{color:#7a2b28}
+  .bar{
+    display:flex;gap:10px;margin:16px 0 14px;flex-wrap:wrap;
+  }
+  .q{
+    flex:1 1 220px;min-width:0;
+    padding:12px 14px;border-radius:12px;border:1px solid var(--line);
+    background:rgba(255,252,246,.92);font-size:15px;font-family:inherit;color:var(--ink);
+    box-shadow:0 6px 16px -12px rgba(74,42,58,.5);
+  }
+  .q:focus{outline:2px solid rgba(207,154,76,.55);outline-offset:1px}
+  .btn{
+    padding:12px 16px;border-radius:12px;border:1px solid var(--line);cursor:pointer;
+    background:linear-gradient(180deg,#fff6e2,#f3dcab);color:#6b4a2a;
+    font-family:inherit;font-size:14px;font-weight:500;
+    box-shadow:0 6px 14px -10px rgba(74,42,58,.6);
+  }
+  .btn:active{transform:translateY(1px)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:#7d5a56;margin:0 0 16px}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:1px}
+
+  table{width:100%;border-collapse:separate;border-spacing:0 8px}
+  thead th{
+    font-size:12px;font-weight:500;color:#7d5a56;text-align:left;
+    padding:0 12px 2px;letter-spacing:.06em;
+  }
+  thead th:last-child{text-align:right}
+  tbody tr{
+    background:rgba(255,252,246,.95);
+    box-shadow:0 8px 20px -16px rgba(74,42,58,.75), inset 0 0 0 1px rgba(207,154,76,.28);
+  }
+  tbody td{padding:11px 12px;vertical-align:middle}
+  tbody tr td:first-child{border-radius:12px 0 0 12px}
+  tbody tr td:last-child{border-radius:0 12px 12px 0;text-align:right;white-space:nowrap}
+  .nm{font-family:"Noto Serif SC",serif;font-size:16px;font-weight:600;line-height:1.25}
+  .nm .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:1px}
+  .nm .bear{font-size:13px;margin-left:4px;opacity:.85}
+  .sb{display:block;font-size:12px;color:var(--ink-2);margin-top:3px;font-weight:400}
+  .code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:clamp(17px,4.4vw,20px);font-weight:700;letter-spacing:.1em;color:#7a2b28;
+    cursor:pointer;user-select:all;
+  }
+  .code:active{opacity:.6}
+  .go{
+    display:inline-block;text-decoration:none;font-size:13px;color:#6b4a2a;
+    padding:7px 11px;border-radius:9px;border:1px solid var(--line);
+    background:linear-gradient(180deg,#fff6e2,#f3dcab);
+  }
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);
+    background:rgba(60,36,34,.92);color:#fff8ec;font-size:13.5px;
+    padding:10px 16px;border-radius:10px;opacity:0;pointer-events:none;
+    transition:opacity .25s ease,transform .25s ease;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+  .empty{padding:28px;text-align:center;color:#7d5a56;font-size:14px}
+  footer{margin-top:26px;font-size:12px;color:#6d4d4a;line-height:1.7}
+  footer a{color:#6d4d4a}
+
+  @media (max-width:520px){
+    thead{display:none}
+    tbody tr{display:block;position:relative;margin-bottom:10px}
+    tbody td{display:block;padding:4px 12px;border-radius:0!important}
+    tbody tr td:first-child{border-radius:12px 12px 0 0!important;padding-top:11px;padding-right:84px}
+    tbody tr td:nth-child(2){padding-bottom:13px}
+    tbody tr td:last-child{position:absolute;top:12px;right:12px;padding:0}
+    .code{font-size:20px}
+    .go{font-size:12.5px;padding:6px 9px}
+  }
+  @media print{
+    body{background:#fff;color:#000;padding:0}
+    .bar,.legend,.go,footer{display:none}
+    tbody tr{box-shadow:none;border-bottom:1px solid #ddd}
+    .code{color:#000}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>取件码对照表</h1>
+    <p class="sub">J3K · 2026 毕业感谢作品 ｜ 共 <b id="count">0</b> 位老师 ｜ 网页：<a href="index.html">index.html</a></p>
+  </header>
+
+  <div class="bar">
+    <input class="q" id="q" type="search" placeholder="搜老师名 / 科目 / 取件码…" autocomplete="off">
+    <button class="btn" id="copyAll" type="button">复制全部</button>
+  </div>
+
+  <div class="legend">
+    <span><i id="lg1" style="background:#2196F3"></i>玫瑰色＝箱里那朵</span>
+    <span>🧸＝箱里还有 3D 小熊（教满三年的老师）</span>
+    <span>点取件码可复制</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>老师</th><th>取件码</th><th></th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <footer>
+    专属链接格式：<code>index.html?code=取件码</code>（点开自动开箱）。<br>
+    线上地址：<code>https://gausan-hj.github.io/j3k-2026/</code>
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var T = [
+ {
+  "code": "1362",
+  "name": "詹晋沣",
+  "subject": "班导师 · 科学 · 物理",
+  "hex": "#2196F3",
+  "rose": "蓝玫瑰",
+  "bear": true
+ },
+ {
+  "code": "1512",
+  "name": "林淑娟",
+  "subject": "数学",
+  "hex": "#F44336",
+  "rose": "红玫瑰",
+  "bear": true
+ },
+ {
+  "code": "1960",
+  "name": "林素铭",
+  "subject": "历史",
+  "hex": "#00A0E9",
+  "rose": "天蓝玫瑰",
+  "bear": true
+ },
+ {
+  "code": "2014",
+  "name": "许雍敏",
+  "subject": "美术",
+  "hex": "#C8A2FF",
+  "rose": "淡紫玫瑰",
+  "bear": false
+ },
+ {
+  "code": "2087",
+  "name": "蔡礼懃",
+  "subject": "Robotic",
+  "hex": "#D946EF",
+  "rose": "紫红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "2480",
+  "name": "黄慧婷",
+  "subject": "华文",
+  "hex": "#06B6D4",
+  "rose": "青蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "3268",
+  "name": "孙庆龄",
+  "subject": "辅导",
+  "hex": "#2196F3",
+  "rose": "蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "3750",
+  "name": "崔家琪",
+  "subject": "科学 · 生物",
+  "hex": "#2196F3",
+  "rose": "蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "3918",
+  "name": "尤雪慧",
+  "subject": "信息与资讯",
+  "hex": "#2196F3",
+  "rose": "蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "4182",
+  "name": "洪星宇",
+  "subject": "华文",
+  "hex": "#808080",
+  "rose": "灰玫瑰",
+  "bear": false
+ },
+ {
+  "code": "4616",
+  "name": "符丽娜",
+  "subject": "华文",
+  "hex": "#FFFFFF",
+  "rose": "白玫瑰",
+  "bear": false
+ },
+ {
+  "code": "7057",
+  "name": "罗贤惟",
+  "subject": "体育",
+  "hex": "#D32F2F",
+  "rose": "深红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "7569",
+  "name": "叶优蒂",
+  "subject": "体育",
+  "hex": "#2196F3",
+  "rose": "蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "7583",
+  "name": "李伟仁",
+  "subject": "科学 · 化学",
+  "hex": "#1565C0",
+  "rose": "深蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "7672",
+  "name": "Nabilah",
+  "subject": "马来文 · J3B",
+  "hex": "#D32F2F",
+  "rose": "深红玫瑰",
+  "bear": true
+ },
+ {
+  "code": "8094",
+  "name": "Rizan",
+  "subject": "马来文 · J3A",
+  "hex": "#E91E63",
+  "rose": "玫红玫瑰",
+  "bear": true
+ },
+ {
+  "code": "8422",
+  "name": "Shula",
+  "subject": "马来文 · J3C",
+  "hex": "#4CAF50",
+  "rose": "绿玫瑰",
+  "bear": false
+ },
+ {
+  "code": "7402",
+  "name": "Anita",
+  "subject": "马来文 · J3C",
+  "hex": "#F44336",
+  "rose": "红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "8444",
+  "name": "Vatsala",
+  "subject": "英文 · J3B（J3 WISDOM）",
+  "hex": "#221C24",
+  "rose": "黑玫瑰",
+  "bear": false
+ },
+ {
+  "code": "9681",
+  "name": "Pavithra",
+  "subject": "英文 · J3C（J3 Success）",
+  "hex": "#009688",
+  "rose": "青绿玫瑰",
+  "bear": false
+ },
+ {
+  "code": "9710",
+  "name": "Lim Wen Xin",
+  "subject": "英文 · J3B（J3 WISDOM）",
+  "hex": "#06B6D4",
+  "rose": "青蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "9831",
+  "name": "Shanthini",
+  "subject": "英文 · J3B（J3 WISDOM）",
+  "hex": "#D32F2F",
+  "rose": "深红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "9921",
+  "name": "张雪彦",
+  "subject": "美术",
+  "hex": "#D32F2F",
+  "rose": "深红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "9967",
+  "name": "吴敏灵",
+  "subject": "地理",
+  "hex": "#E91E63",
+  "rose": "玫红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "5347",
+  "name": "Subatra",
+  "subject": "英文 · J3C（J3 Success）",
+  "hex": "#009688",
+  "rose": "青绿玫瑰",
+  "bear": false
+ },
+ {
+  "code": "6289",
+  "name": "张雪玲",
+  "subject": "美术",
+  "hex": "#F44336",
+  "rose": "红玫瑰",
+  "bear": false
+ },
+ {
+  "code": "3179",
+  "name": "任志康",
+  "subject": "体育 · J3K",
+  "hex": "#1565C0",
+  "rose": "深蓝玫瑰",
+  "bear": false
+ },
+ {
+  "code": "5824",
+  "name": "Amelia",
+  "subject": "英文 · J3C（J3 Success）",
+  "hex": "#E91E63",
+  "rose": "玫红玫瑰",
+  "bear": false
+ }
+];
+var rowsEl = document.getElementById('rows');
+var qEl = document.getElementById('q');
+var toastEl = document.getElementById('toast');
+document.getElementById('count').textContent = T.length;
+
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('on');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function(){ toastEl.classList.remove('on'); }, 1400);
+}
+
+function copy(text, msg){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast(msg); }, function(){ fallback(text, msg); });
+  } else {
+    fallback(text, msg);
+  }
+}
+function fallback(text, msg){
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); toast(msg); } catch(e){ toast('复制失败，请手动选择'); }
+  document.body.removeChild(ta);
+}
+
+function render(list){
+  if(!list.length){
+    rowsEl.innerHTML = '<tr><td colspan="3" class="empty">没有匹配的老师</td></tr>';
+    return;
+  }
+  var h = '';
+  list.forEach(function(t){
+    h += '<tr>' +
+      '<td><span class="nm"><i class="dot" style="background:' + t.hex + '"></i>' + esc(t.name) +
+        (t.bear ? '<span class="bear" title="箱里有 3D 小熊">🧸</span>' : '') +
+        '</span><span class="sb">' + esc(t.subject) + ' ｜ ' + esc(t.rose) + '</span></td>' +
+      '<td><span class="code" data-code="' + esc(t.code) + '">' + esc(t.code) + '</span></td>' +
+      '<td><a class="go" href="index.html?code=' + encodeURIComponent(t.code) + '">打开 →</a></td>' +
+    '</tr>';
+  });
+  rowsEl.innerHTML = h;
+}
+function esc(s){
+  return String(s).replace(/[&<>"]/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];
+  });
+}
+
+rowsEl.addEventListener('click', function(e){
+  var el = e.target.closest ? e.target.closest('.code') : null;
+  if(el){ copy(el.getAttribute('data-code'), '已复制 ' + el.getAttribute('data-code')); }
+});
+
+document.getElementById('copyAll').addEventListener('click', function(){
+  var txt = T.map(function(t){ return t.name + '\t' + t.code; }).join('\n');
+  copy(txt, '已复制全部 ' + T.length + ' 位老师的名单');
+});
+
+qEl.addEventListener('input', function(){
+  var k = qEl.value.trim().toLowerCase();
+  if(!k){ render(T); return; }
+  render(T.filter(function(t){
+    return (t.name + ' ' + t.subject + ' ' + t.code + ' ' + t.rose).toLowerCase().indexOf(k) >= 0;
+  }));
+});
+
+render(T);
+</script>
+</body>
+</html>
