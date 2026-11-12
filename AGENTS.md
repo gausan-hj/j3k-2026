@@ -13,6 +13,7 @@
 
 ```
 index.html                 网页版（单文件，无构建）：取件码 → 开箱 → 奖状 / 感谢信，内置 4 语言
+code.html                  老师姓名 × 取件码对照表（可搜索/复制/跳转，由 _verify/gen_code_page.py 生成）
 index.before-i18n.html     加多语言之前的备份（确认无误后可删）
 AGENTS.md                  本文件
 _verify/                   验证脚本与截图（可删）
