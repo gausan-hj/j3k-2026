@@ -1127,6 +1127,8 @@
     will-change:background-position;
     transform:translateZ(.02em);
   }
+  /* 红色系老师用另一套烘焙好颜色的序列帧（腮红/鼻子才不会跟着偏色） */
+  .b-sprite.is-red{ background-image:url("assets/bear_sprite_red.webp"); }
   @keyframes bearSpin{
     from{ background-position-x:0; }
     to{ background-position-x:-22em; }   /* 11 步 × 2em */
@@ -3305,6 +3307,16 @@
         ms:'Terima kasih kerana tidak menganggap markah kami sebagai gambaran penuh diri kami. Cikgu nampak usaha kami, dan itu sangat bermakna bagi kami.',
         en:'Thank you for never treating our marks as the whole picture of who we are. You saw that we were trying, and that mattered a lot to us.',
         ta:'எங்கள் மதிப்பெண்களை மட்டுமே எங்கள் முழு உருவமாகக் கருதாததற்கு நன்றி. நாங்கள் முயற்சி செய்வதை நீங்கள் பார்த்தீர்கள் — அது எங்களுக்கு மிக முக்கியம்.'} },
+    '4471': { zh:'林和福',
+      cert:{zh:'谢谢您在这三年里给过我们的每一句提醒、每一次耐心。也许我们不是每次都听得进去，但您说过的话，后来在很多时刻都回到了我们心里。',
+        ms:'Terima kasih atas setiap teguran dan setiap kesabaran cikgu sepanjang tiga tahun ini. Mungkin kami tidak selalu mendengarnya, tetapi kata-kata cikgu kembali kepada kami pada banyak saat kemudian.',
+        en:'Thank you for every reminder and every bit of patience you gave us over these three years. We may not have listened every time, but your words came back to us in many moments afterwards.',
+        ta:'இந்த மூன்று ஆண்டுகளில் நீங்கள் தந்த ஒவ்வொரு நினைவூட்டலுக்கும் பொறுமைக்கும் நன்றி. ஒவ்வொரு முறையும் நாங்கள் கேட்டுக்கொள்ளவில்லை; ஆனால் பின்னர் பல தருணங்களில் உங்கள் வார்த்தைகள் எங்களுக்குள் திரும்பி வந்தன.'},
+      rose:{hex:'#4CAF50', zh:'绿玫瑰', ms:'Mawar Hijau', en:'Green Rose', ta:'பச்சை ரோஜா'},
+      honour:{zh:'谢谢您愿意在我们还没长大的时候，就认真地对待我们。被认真对待过的孩子，会记很久。',
+        ms:'Terima kasih kerana melayan kami dengan serius walaupun kami belum dewasa. Anak yang pernah dilayan dengan serius akan mengingatinya lama.',
+        en:'Thank you for taking us seriously while we were still growing up. A child who has been taken seriously remembers it for a long time.',
+        ta:'நாங்கள் இன்னும் முதிர்ச்சி அடையாதபோதும் எங்களை தீவிரமாகக் கருதியதற்கு நன்றி. தீவிரமாக நடத்தப்பட்ட குழந்தை அதை நீண்ட காலம் நினைவில் வைத்திருக்கும்.'} },
   };
 
   var CERT_NAME = {
@@ -3644,8 +3656,11 @@
     bearView.style.setProperty('--bear', teacher.rose.hex);
     bearView.style.setProperty('--rose', teacher.rose.hex);
     var rot = Math.round(hueOf(teacher.rose.hex) - 207);
+    var h = hueOf(teacher.rose.hex);
+    var warm = h < 55 || h > 330;        // 红色系 → 走红版序列帧（不用 hue-rotate，腮红才不会被染色）
     Array.prototype.forEach.call(document.querySelectorAll('.b-sprite'), function(el){
-      el.style.filter = rot ? 'hue-rotate(' + rot + 'deg)' : '';
+      el.classList.toggle('is-red', warm);
+      el.style.filter = (!warm && rot) ? 'hue-rotate(' + rot + 'deg)' : '';
     });
     bearItem.setAttribute('aria-label', I18N[currentLang].bearItem || '');
   }
