@@ -3317,6 +3317,27 @@
         ms:'Terima kasih kerana melayan kami dengan serius walaupun kami belum dewasa. Anak yang pernah dilayan dengan serius akan mengingatinya lama.',
         en:'Thank you for taking us seriously while we were still growing up. A child who has been taken seriously remembers it for a long time.',
         ta:'நாங்கள் இன்னும் முதிர்ச்சி அடையாதபோதும் எங்களை தீவிரமாகக் கருதியதற்கு நன்றி. தீவிரமாக நடத்தப்பட்ட குழந்தை அதை நீண்ட காலம் நினைவில் வைத்திருக்கும்.'} },
+    '1111': { zh:'美术老师', noSuffix:true,
+      subject:{zh:'美术', ms:'Seni Visual', en:'Art', ta:'கலை'},
+      cert:{zh:'谢谢您教我们画画。您总说「画得像不像不重要」，可我们每次还是偷偷想画得像一点 —— 现在想想，那大概就是我们喜欢上美术的原因。',
+        ms:'Terima kasih kerana mengajar kami melukis. Cikgu selalu kata “tak kisah sama ada lukisan itu serupa”, tetapi kami tetap diam-diam mahu melukis dengan lebih baik — mungkin itulah sebabnya kami mula menyukai Seni.',
+        en:'Thank you for teaching us to draw. You always said “it doesn’t matter whether it looks the same”, yet we still secretly wanted to draw it a little better — and that was probably how you made us love Art.',
+        ta:'எங்களுக்கு ஓவியம் கற்பித்ததற்கு நன்றி. “ஒத்திருப்பதா என்பது முக்கியமல்ல” என்று சொல்வீர்கள்; ஆனால் நாங்கள் மறைமுகமாக இன்னும் நன்றாக வரைய விரும்பினோம் — அதுவே கலையை விரும்பக் காரணமாக இருக்கலாம்.'},
+      rose:{hex:'#D946EF', zh:'紫红玫瑰', ms:'Mawar Magenta', en:'Magenta Rose', ta:'மெஜந்தா ரோஜா'},
+      honour:{zh:'谢谢您把美术教室变成了可以安静下来的地方。在那两节连堂课里，我们第一次觉得，慢一点也没关系。',
+        ms:'Terima kasih kerana menjadikan bilik Seni tempat kami boleh tenang. Dalam dua waktu berturut-turut itu, buat pertama kalinya kami rasa perlahan pun tidak mengapa.',
+        en:'Thank you for making the Art room a place where we could calm down. In those double periods, for the first time we felt that going slowly was fine.',
+        ta:'கலை அறையை நாங்கள் அமைதியடையும் இடமாக மாற்றியதற்கு நன்றி. அந்த இரட்டைப் பாடங்களில், மெதுவாகச் சென்றாலும் பரவாயில்லை என்பதை முதன்முதலில் உணர்ந்தோம்.'} },
+    '2222': { zh:'蔡文兴主任', noSuffix:true,
+      cert:{zh:'谢谢主任这三年为我们做的一切。您可能不常出现在我们班上，但每一次学校活动、每一次安排，背后都有您的用心。我们记得。',
+        ms:'Terima kasih atas segala yang dilakukan untuk kami dalam tiga tahun ini. Mungkin kami jarang nampak cikgu di dalam kelas kami, tetapi setiap aktiviti sekolah dan setiap urusan ada usaha cikgu di belakangnya. Kami ingat.',
+        en:'Thank you for everything you did for us over these three years. You may not have been in our classroom often, but behind every school event and every arrangement was your care. We remember it.',
+        ta:'இந்த மூன்று ஆண்டுகளில் எங்களுக்காகச் செய்த அனைத்திற்கும் நன்றி. நீங்கள் எங்கள் வகுப்பில் அடிக்கடி இல்லாமல் இருக்கலாம்; ஆனால் ஒவ்வொரு பள்ளி நிகழ்வுக்கும் ஒவ்வொரு ஏற்பாட்டுக்கும் பின்னால் உங்கள் அக்கறை இருந்தது. நாங்கள் நினைவில் வைத்திருக்கிறோம்.'},
+      rose:{hex:'#1565C0', zh:'深蓝玫瑰', ms:'Mawar Biru Tua', en:'Navy Blue Rose', ta:'அடர் நீல ரோஜா'},
+      honour:{zh:'谢谢您在我们看不见的地方，替我们把事情安排好。也许我们从来没有当面说过，但这三年能顺利走到今天，有您的一份。',
+        ms:'Terima kasih kerana menguruskan banyak perkara untuk kami di tempat yang tidak kami lihat. Mungkin kami tidak pernah mengucapkannya secara terus, tetapi perjalanan tiga tahun ini sampai ke hari ini juga kerana cikgu.',
+        en:'Thank you for arranging so many things for us in places we could not see. We may never have said it to your face, but the fact that these three years went as smoothly as they did is partly because of you.',
+        ta:'எங்களுக்குத் தெரியாத இடங்களில் பல விஷயங்களை ஏற்பாடு செய்ததற்கு நன்றி. நேரில் ஒருபோதும் சொல்லியிருக்க மாட்டோம்; ஆனால் இந்த மூன்று ஆண்டுகள் இப்படி நிறைவடைந்ததில் உங்கள் பங்கும் உண்டு.'} },
   };
 
   var CERT_NAME = {
@@ -3366,7 +3387,8 @@
     var dict = I18N[currentLang];
     var fmt = CERT_NAME[currentLang] || CERT_NAME.zh;
     var name = currentLang === 'zh' ? teacher.zh : (teacher.latin || teacher.zh);
-    certNameEl.textContent = fmt.pre + name + fmt.post;
+    // noSuffix：名字里已经带「老师 / 主任」的，不再加称呼前后缀
+    certNameEl.textContent = teacher.noSuffix ? teacher.zh : (fmt.pre + name + fmt.post);
     var subj = teacher.subject ? (teacher.subject[currentLang] || teacher.subject.zh) : '';
     certSubjectEl.textContent = subj || '';
     certSubjectEl.hidden = !subj;
