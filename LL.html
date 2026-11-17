@@ -168,9 +168,9 @@
     50%{ transform:translateY(-16px) rotate(1.5deg); }
   }
   .beam{
-    position:absolute; left:50%; top:62%; width:52%; height:190px;
+    position:absolute; left:50%; top:62%; width:52%; height:150px;
     transform:translateX(-50%);
-    background:linear-gradient(to bottom,rgba(160,240,255,.42),rgba(120,90,255,.12) 55%,rgba(120,90,255,0));
+    background:linear-gradient(to bottom,rgba(160,240,255,.32),rgba(120,90,255,.1) 55%,rgba(120,90,255,0));
     clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);
     filter:blur(3px);
     animation:beamPulse 3.4s ease-in-out infinite;
@@ -183,28 +183,35 @@
 
   /* 用 flex 居中，让 .glow 保持"贴着文字"的宽度，::before 描边才能和填充严丝合缝 */
   .hero-title{
-    margin:6px 0 0; line-height:1.02;
+    margin:18px 0 0; line-height:1.02;
     display:flex; flex-direction:column; align-items:center;
   }
+  .hero-title span{ display:inline-block; }
+  /* 文字两层：底层实心深紫 + 粗描边（只露边缘），上层是金色渐变字。
+     早期把描边放在 ::before 覆盖层会导致 0.13em 的描边把字形整个吃掉。 */
   .glow{
     position:relative; display:inline-block;
     font-family:"ZCOOL KuaiLe","Baloo 2","Noto Sans SC",sans-serif;
     font-weight:400;
-    color:var(--gold);
-    filter:drop-shadow(0 0 22px rgba(255,205,60,.5)) drop-shadow(0 8px 0 rgba(32,8,74,.55));
     letter-spacing:.02em;
+    filter:drop-shadow(0 0 24px rgba(255,205,60,.5)) drop-shadow(0 9px 0 rgba(32,8,74,.4));
   }
   .glow::before{
     content:attr(data-text);
-    position:absolute; inset:0; z-index:-1;
-    color:transparent;
-    -webkit-text-stroke:.13em #3d1478;
-    -webkit-text-fill-color:transparent;
+    position:absolute; inset:0; z-index:0;
+    color:#3d1478;
+    -webkit-text-fill-color:#3d1478;
+    -webkit-text-stroke:.145em #3d1478;
     pointer-events:none;
+    user-select:none;
+  }
+  .glow-fill{
+    position:relative; z-index:1; display:inline-block;
+    color:var(--gold);
   }
   @supports ((-webkit-background-clip:text) or (background-clip:text)){
-    .glow{
-      background:linear-gradient(180deg,#fffbe0 0%,#ffe45c 42%,#ffb01f 100%);
+    .glow-fill{
+      background:linear-gradient(180deg,#fffbe0 0%,#ffe45c 44%,#ffb01f 100%);
       -webkit-background-clip:text; background-clip:text;
       -webkit-text-fill-color:transparent; color:transparent;
     }
@@ -664,27 +671,28 @@
   /* ---------- 页脚 / 月面 ---------- */
   .foot{
     position:relative; z-index:1;
-    margin-top:clamp(60px,8vw,110px);
-    padding-top:clamp(110px,15vw,190px);
+    margin-top:clamp(40px,6vw,80px);
+    padding-top:clamp(40px,5vw,70px);
     text-align:center;
   }
   .moon{
     position:absolute; left:0; right:0; bottom:0;
-    width:100%; height:clamp(200px,30vw,330px);
-    z-index:-1; pointer-events:none;
+    width:100%; height:clamp(230px,32vw,360px);
+    z-index:0; pointer-events:none;
   }
   .moon svg{ width:100%; height:100%; display:block; }
+  /* 三眼怪从月球边缘探头：放在最底部，文字都在它上方 */
   .footer-alien{
-    position:absolute; left:50%; bottom:clamp(120px,19vw,215px);
-    width:clamp(96px,13vw,150px);
+    position:absolute; left:50%; bottom:clamp(16px,3vw,34px); z-index:2;
+    width:clamp(104px,14vw,162px);
     transform:translateX(-50%);
-    filter:drop-shadow(0 12px 26px rgba(0,0,0,.6));
+    filter:drop-shadow(0 14px 28px rgba(0,0,0,.6));
     animation:bobSmall 4.2s ease-in-out infinite;
   }
   @keyframes bobSmall{ 0%,100%{ transform:translate(-50%,0); } 50%{ transform:translate(-50%,-9px); } }
   .foot-inner{
-    position:relative;
-    padding:clamp(26px,4vw,44px) clamp(18px,5vw,40px) 34px;
+    position:relative; z-index:1;
+    padding:0 clamp(18px,5vw,40px) clamp(215px,29vw,300px);
     max-width:880px; margin:0 auto;
   }
   .foot h3{
@@ -704,7 +712,7 @@
   .foot-note a:hover{ color:#fff; }
 
   /* 底部浮条出现时，给页脚留出避让空间 */
-  body.has-order .foot-inner{ padding-bottom:132px; }
+  body.has-order .foot-inner{ padding-bottom:clamp(230px,31vw,320px); }
   body.has-order .lb-cap{ bottom:110px; }
 
   /* ---------- 灯箱 ---------- */
@@ -884,10 +892,6 @@
       <div class="beam"></div>
       <svg viewBox="0 0 340 210" aria-hidden="true">
         <ellipse cx="170" cy="118" rx="150" ry="30" fill="url(#ufoRim)" opacity=".18"/>
-        <!-- 驾驶舱三眼怪 -->
-        <g transform="translate(118 40) scale(.42)">
-          <use href="#alienHead" width="200" height="200"/>
-        </g>
         <!-- 圆顶 -->
         <path d="M108 104 a62 52 0 0 1 124 0 z" fill="url(#ufoDome)" stroke="#c7f2ff" stroke-opacity=".65" stroke-width="2"/>
         <path d="M126 96 a44 36 0 0 1 30 -24" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
@@ -908,12 +912,16 @@
           <circle cx="200" cy="129" r="4"/>
           <circle cx="250" cy="119" r="4"/>
         </g>
+        <!-- 驾驶舱里的三眼怪：画在碟身之后才不会被圆顶盖掉 -->
+        <g transform="translate(140 42) scale(.3)">
+          <use href="#alienHead" width="200" height="200"/>
+        </g>
       </svg>
     </div>
 
     <h1 class="hero-title">
-      <span class="glow line1" data-text="外太空银河系">外太空银河系</span>
-      <span class="glow line2" data-text="美食来袭！">美食来袭！</span>
+      <span class="glow line1" data-text="外太空银河系"><span class="glow-fill">外太空银河系</span></span>
+      <span class="glow line2" data-text="美食来袭！"><span class="glow-fill">美食来袭！</span></span>
     </h1>
 
     <p class="hero-sub">来自银河的美味小食 · <b>J3K 星际义卖会</b></p>
@@ -1086,40 +1094,32 @@
         <span class="card-qty-badge" aria-hidden="true">0</span>
         <div class="art">
           <svg viewBox="0 0 220 220" role="img" aria-label="插画：一个放了柚子和薄荷的水果塔">
-            <!-- 塔皮外沿（菊花边） -->
-            <path d="M44 150 q0 -30 66 -30 q66 0 66 30 q0 34 -66 34 q-66 0 -66 -34 z" fill="#e8a95a" stroke="#b97b30" stroke-width="4" stroke-linejoin="round"/>
-            <g fill="#f0b76c" stroke="#b97b30" stroke-width="3" stroke-linejoin="round">
-              <circle cx="48" cy="150" r="10"/><circle cx="66" cy="128" r="10"/><circle cx="92" cy="118" r="10"/>
-              <circle cx="128" cy="118" r="10"/><circle cx="154" cy="128" r="10"/><circle cx="172" cy="150" r="10"/>
+            <!-- 塔皮（上宽下窄的杯状） -->
+            <path d="M46 138 q0 -14 64 -14 q64 0 64 14 l-9 44 q-2 12 -14 12 h-82 q-12 0 -14 -12 z" fill="#d99348" stroke="#a86a24" stroke-width="4" stroke-linejoin="round"/>
+            <g stroke="#b97b30" stroke-width="2.6" opacity=".5" stroke-linecap="round">
+              <path d="M70 144 l5 50"/><path d="M93 141 l2 58"/><path d="M117 141 l-2 58"/><path d="M140 144 l-5 50"/>
             </g>
-            <!-- 塔皮内侧 -->
-            <ellipse cx="110" cy="148" rx="60" ry="22" fill="#c98a3c"/>
+            <!-- 菊花边（塔皮上沿的一圈花边） -->
+            <g fill="#f2bb72" stroke="#b97b30" stroke-width="3.2" stroke-linejoin="round">
+              <circle cx="56" cy="138" r="12"/><circle cx="79" cy="128" r="13"/><circle cx="104" cy="124" r="13"/>
+              <circle cx="129" cy="124" r="13"/><circle cx="154" cy="128" r="13"/><circle cx="175" cy="138" r="12"/>
+            </g>
             <!-- 奶油 -->
-            <ellipse cx="110" cy="140" rx="56" ry="22" fill="#fff6e6" stroke="#e8d3b0" stroke-width="2"/>
-            <path d="M70 132 q10 -22 40 -24 q30 2 40 24 q-14 -6 -40 -6 q-26 0 -40 6 z" fill="#ffffff" opacity=".9"/>
-            <g fill="#fffdf7" stroke="#eadfca" stroke-width="1.6">
-              <circle cx="88" cy="126" r="12"/>
-              <circle cx="110" cy="120" r="13"/>
-              <circle cx="132" cy="126" r="12"/>
-            </g>
+            <ellipse cx="114" cy="128" rx="56" ry="17" fill="#fffdf7" stroke="#e6d6b8" stroke-width="2"/>
+            <path d="M72 126 q12 -13 42 -13 q30 0 42 13" fill="none" stroke="#f0e4cc" stroke-width="4" stroke-linecap="round"/>
             <!-- 柚子瓣 -->
-            <g stroke="#d8506e" stroke-width="2.4" stroke-linejoin="round">
-              <path d="M96 112 q22 -18 40 -2 q10 18 -6 26 q-22 8 -34 -4 q-8 -12 0 -20 z" fill="#ff7d95"/>
+            <path d="M92 124 q16 -26 42 -14 q10 16 -8 26 q-22 10 -34 -2 q-6 -6 0 -10 z" fill="#ff7d95" stroke="#d8506e" stroke-width="2.6" stroke-linejoin="round"/>
+            <g fill="none" stroke="#ffc2cf" stroke-width="2.2" stroke-linecap="round" opacity=".95">
+              <path d="M103 116 q5 -4 9 -1"/>
+              <path d="M110 124 q6 -2 9 2"/>
+              <path d="M99 130 q6 0 8 3"/>
             </g>
-            <g fill="#ffc2cf" opacity=".85">
-              <path d="M104 112 q6 -6 12 -4 q-2 8 -8 12 z"/>
-              <path d="M118 110 q7 -5 13 -2 q-3 8 -10 11 z"/>
-              <path d="M104 124 q7 -3 13 0 q-4 7 -11 6 z"/>
-            </g>
-            <path d="M100 130 q14 6 30 -2" fill="none" stroke="#e05574" stroke-width="2" stroke-linecap="round"/>
             <!-- 薄荷叶 -->
             <g fill="#5fbf2f" stroke="#3d7f14" stroke-width="2.4" stroke-linejoin="round">
-              <path d="M76 110 q-18 -18 -2 -32 q18 4 16 24 z"/>
-              <path d="M86 104 q-6 -24 14 -30 q12 14 -2 28 z"/>
+              <path d="M80 116 q-20 -14 -6 -32 q18 2 17 24 z"/>
+              <path d="M90 110 q-8 -24 10 -30 q13 12 1 28 z"/>
             </g>
-            <path d="M78 108 q6 -14 10 -20" fill="none" stroke="#3d7f14" stroke-width="2" stroke-linecap="round"/>
-            <!-- 高光 -->
-            <ellipse cx="86" cy="140" rx="20" ry="7" fill="#ffffff" opacity=".55"/>
+            <path d="M82 112 q6 -14 9 -20" fill="none" stroke="#3d7f14" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
         <div class="card-body">
@@ -1290,11 +1290,6 @@
           <ellipse cx="1010" cy="252" rx="66" ry="19"/>
           <ellipse cx="1290" cy="300" rx="110" ry="28"/>
           <ellipse cx="420" cy="310" rx="58" ry="16"/>
-        </g>
-        <g fill="none" stroke="#4a2b87" stroke-opacity=".55" stroke-width="2">
-          <ellipse cx="230" cy="250" rx="74" ry="22"/>
-          <ellipse cx="600" cy="286" rx="96" ry="26"/>
-          <ellipse cx="1010" cy="252" rx="66" ry="19"/>
         </g>
       </svg>
     </div>
