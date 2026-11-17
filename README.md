@@ -2,7 +2,7 @@
 
 **线上地址：<https://gausan-hj.github.io/j3k-2026/>**
 
-**星际义卖会 · 银河菜单（外太空银河系三眼怪主题）：<https://gausan-hj.github.io/j3k-2026/LL.html>**
+**星际义卖会 · 银河菜单（外太空银河系三眼怪主题）：<https://j3k-2026.vercel.app/ll.html>**
 
 **取件码对照表（可搜索/复制）：<https://gausan-hj.github.io/j3k-2026/code.html>**
 
@@ -27,7 +27,7 @@
 | 文件 | 说明 |
 |---|---|
 | `index.html` | 整个网页（单文件，不需要构建） |
-| `LL.html` | 星际义卖会页面（外太空银河系 · 三眼怪主题菜单，含扫码二维码） |
+| `ll.html` | 星际义卖会页面（外太空银河系 · 三眼怪主题菜单，含扫码二维码） |
 | `assets/bazaar/` | 义卖会两张海报（原图 PNG + 页面用 WebP） |
 | `assets/bear_sprite.webp` | 3D 小熊的 12 角度序列帧（教满三年的老师箱里才有） |
 | `voice/` | 四语 AI 配音（中文 21 分钟为完整版） |
